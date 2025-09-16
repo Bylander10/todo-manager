@@ -48,3 +48,20 @@ def delete_task(args: argparse.Namespace) -> None:
             print(f"Índice inválido: {args.index}")
     except ValueError:
         print("Índice deve ser um número inteiro.")
+
+
+def setup_parser(parser: argparse.ArgumentParser) -> None:
+    # subcomando pra adicionar
+    add_parser = parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('add', help='Adiciona uma tarefa')
+    add_parser.add_argument('description', type=str, help='Descrição da tarefa')
+
+    # subcomando pra listar
+    parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('list', help='Lista tarefas')
+
+    # subcomando pra completar tarefa
+    complete_parser = parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('Complete', help='Marca tarefa como concluída.')
+    complete_parser.add_argument('index', type=str, help='Índice da tarefa (inicia em 1)')
+
+    # subcomando pra deletar tarefa
+    delete_parser = parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('delete', help='Deleta uma tarefa')
+    delete_parser.add_argument('index', type=str, help='Índice da tarefa (inicia em 1)')
