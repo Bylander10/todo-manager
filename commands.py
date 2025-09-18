@@ -51,17 +51,22 @@ def delete_task(args: argparse.Namespace) -> None:
 
 
 def setup_parser(parser: argparse.ArgumentParser) -> None:
-    # subcomando pra adicionar
-    add_parser = parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('add', help='Adiciona uma tarefa')
-    add_parser.add_argument('description', type=str, help='Descrição da tarefa')
+    
+
+    # Cria o grupo de comandos apenas UMA vez
+    subparsers = parser.add_subparsers(dest='command', help='Comandos disponíveis')
+
+    # subcomando para criar tarefa
+    add_parser = subparsers.add_parser('add', help='Adiciona uma tarefa')
+    add_parser.add_argument('description', type=str, help='Descrição da Tarefa')
 
     # subcomando pra listar
-    parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('list', help='Lista tarefas')
+    subparsers.add_parser('list', help='Lista tarefas')
 
     # subcomando pra completar tarefa
-    complete_parser = parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('Complete', help='Marca tarefa como concluída.')
+    complete_parser = subparsers.add_parser('complete', help='Marca tarefa como concluída')
     complete_parser.add_argument('index', type=str, help='Índice da tarefa (inicia em 1)')
 
     # subcomando pra deletar tarefa
-    delete_parser = parser.add_subparsers(dest='command', help='Comandos disponíveis').add_parser('delete', help='Deleta uma tarefa')
+    delete_parser = subparsers.add_parser('delete', help='Deleta uma tarefa')
     delete_parser.add_argument('index', type=str, help='Índice da tarefa (inicia em 1)')
