@@ -1,6 +1,7 @@
 import json
 from typing import List
 from datetime import datetime
+import os
 
 from .models import Task
 
@@ -20,7 +21,7 @@ def dict_to_task(data: dict) -> Task:
     return task
 
 
-def load_tasks(file_path: str = "todos.json") -> List[Task]:
+def load_tasks(file_path: str = os.path.join(os.path.dirname(__file__), 'todos.json')) -> List[Task]:
     try:
         with open(file_path, "r") as file:
             data = json.load(file)
@@ -31,7 +32,7 @@ def load_tasks(file_path: str = "todos.json") -> List[Task]:
         raise ValueError("Arquivo JSON corrompido.")
 
 
-def save_tasks(tasks: List[Task], file_path: str = "todos.json") -> None:
+def save_tasks(tasks: List[Task], file_path: str = os.path.join(os.path.dirname(__file__), 'todos.json')) -> None:
     data = [task_to_dict(task) for task in tasks]
     with open(file_path, "w") as file:
         json.dump(data, file, indent=4)
